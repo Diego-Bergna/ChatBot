@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+  <category>
+    <pattern>*</pattern>
+    <template>
+        Lo lamento, no sé a qué te refieres. Escribe "hola" para poder ayudarte
+    </template>
+  </category>
+  
+  <category>
+      <pattern>SI</pattern>
+      <template>
+          <condition name="aux">
+              <li value="ini">
+                <think><set name="order">ordenado</set>.</think>
+                Estos son los platos de la carta:
+                1. Lomo Saltado,
+                2. Aji de Pollo,
+                3. Arroz con Pato,
+                4. Frejoles con seco de cabrito,
+                5. Carapulcra con sopa seca. 
+                Escriba: "Quisiera ordenar el plato" y el numero del plato elegido.
+              </li>
+              <li>Lo lamento, no sé a qué te refieres. Escribe "hola" para poder ayudarte</li>
+          </condition>
+      </template>
+  </category>
+  
+  <category>
+      <pattern>NO</pattern>
+      <template>
+          <condition name="aux">
+              <li value="ini">
+                  Si tiene un plato en mente, escriba: "Quisiera ordenar el plato" y el numero del plato elegido.
+                  Caso contrario, escriba: "Adios" para finalizar la conversacion.
+              </li>
+          </condition>
+      </template>
+  </category>
+  
+  
+  
+  <category>
+      <pattern>HOLA</pattern>
+      <template>
+          <think><set name="aux">ini</set></think>
+          <think><set name="order">no-ordenado</set></think>
+          Bienvenido al restaurante Bergna's Gourmet, seré tu asistente para que 
+          puedas ordenar un plato de nuestra carta. ¿Quieres ver la carta?
+      </template>
+  </category>
+
+  <category>
+      <pattern>
+          Quisiera ordenar el plato *
+      </pattern>
+      <template>
+          <think><set name="plato"><star/></set></think>
+          <think><set name="order">ordenado</set></think>
+          <condition name="order">
+              <li value="ordenado">
+                <condition name="plato">
+                    <li value="1">
+                        Acaba de ordenar un lomo saltado. 
+                        Brindenos su nombre y apellido para agregarlo al pedido por favor.
+                        "Mi nombre es ".
+                    </li>
+                    <li value="2">
+                        Acaba de ordenar un ají de pollo.
+                        Brindenos su nombre y apellido para agregarlo al pedido por favor.
+                        "Mi nombre es ".
+                    </li>
+                    <li value="3">
+                        Acaba de ordenar un arroz con pato.
+                        Brindenos su nombre y apellido para agregarlo al pedido por favor.
+                        "Mi nombre es ".
+                    </li>
+                    <li value="4">
+                        Acaba de ordenar un frejoles con seco de cabrito.
+                        Brindenos su nombre y apellido para agregarlo al pedido por favor.
+                        "Mi nombre es ".
+                    </li>
+                    <li value="5">
+                        Acaba de ordenar una carapulcra con sopa seca.
+                        Brindenos su nombre y apellido para agregarlo al pedido por favor.
+                        "Mi nombre es ".
+                    </li>
+                </condition>
+              </li>
+          </condition>
+    
+      </template>
+  </category>
+  
+  <category>
+      <pattern>Mi nombre es * *</pattern>
+      <template>
+          <think><set name="nombre"><star index="1"/></set></think>
+          <think><set name="apellido"><star index="2"/></set></think>
+          Gracias, <get name="nombre"/>. Enviaremos a la direccion que nos indica tu localización. 
+          Escribe "Adios" para finalizar
+      </template>
+  </category>
+  
+  <category>
+      <pattern>Adios</pattern>
+      <template>
+          <condition name="order">
+              <li value="ordenado">
+                  Gracias, <get name="nombre"/> <get name="apellido"/> por confiar en nuestro servicio. Su pedido estará llegando
+                  lo más pronto posible.
+              </li>
+              <li value="no-ordenado">
+                  Hasta la próxima! 
+              </li>
+          </condition>
+      </template>
+  </category>
+</aiml>
